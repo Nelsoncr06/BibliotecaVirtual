@@ -1,0 +1,26 @@
+﻿# Archivos generados al compilar
+bin/
+obj/
+
+# Archivos locales de Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Perfiles de publicación
+*.pubxml
+*.publishsettings
+
+# Archivos temporales y de registro
+*.log
+*.tmp
+*.bak
+
+# Archivos locales de configuración
+appsettings.Local.json
+
+# Carpetas y archivos del sistema
+.DS_Store
+Thumbs.db

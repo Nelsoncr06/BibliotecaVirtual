@@ -1,0 +1,27 @@
+﻿@model BibliotecaMVC_BD.Models.Libro
+
+@{
+    ViewData["Title"] = "Detalle del libro";
+}
+
+<h1>Detalle del libro</h1>
+
+<dl class="row mt-4">
+    <dt class="col-sm-3">Código</dt>
+    <dd class="col-sm-9">@Model.Codigo</dd>
+
+    <dt class="col-sm-3">Título</dt>
+    <dd class="col-sm-9">@Model.Titulo</dd>
+
+    <dt class="col-sm-3">Autor</dt>
+    <dd class="col-sm-9">@Model.Autor</dd>
+
+    <dt class="col-sm-3">Fecha de publicación</dt>
+    <dd class="col-sm-9">
+        @Model.FechaPublicacion?.ToString("dd/MM/yyyy")
+    </dd>
+</dl>
+
+<a asp-action="Index" class="btn btn-secondary">
+    Volver al catálogo
+</a>

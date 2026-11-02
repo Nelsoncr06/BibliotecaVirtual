@@ -1,0 +1,40 @@
+﻿@model BibliotecaMVC_BD.Models.Libro
+
+@{
+    ViewData["Title"] = "Registrar libro";
+}
+
+<h1>Registrar libro</h1>
+
+<form asp-action="Registrar" method="post">
+    <div class="mb-3">
+        <label asp-for="Codigo" class="form-label"></label>
+        <input asp-for="Codigo" class="form-control" />
+        <span asp-validation-for="Codigo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Titulo" class="form-label"></label>
+        <input asp-for="Titulo" class="form-control" />
+        <span asp-validation-for="Titulo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Autor" class="form-label"></label>
+        <input asp-for="Autor" class="form-control" />
+        <span asp-validation-for="Autor" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaPublicacion" class="form-label"></label>
+        <input asp-for="FechaPublicacion" type="date" class="form-control" />
+        <span asp-validation-for="FechaPublicacion" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar libro</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver al catálogo</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

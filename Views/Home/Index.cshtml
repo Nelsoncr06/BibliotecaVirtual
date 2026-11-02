@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="text-center py-5">
+    <h1 class="display-4">Bienvenido a la Biblioteca Virtual</h1>
+
+    <p class="lead mt-3">
+        Una aplicación Web sencilla para registrar y consultar titulos de libros
+        almacenados en una base de datos.
+    </p>
+
+    <p>
+        Desde el catálogo puedes buscar libros por código, título
+        o autor, consultar sus detalles, eliminar libros y registrar nuevos ejemplares.
+    </p>
+
+    <a asp-controller="Libros"
+       asp-action="Index"
+       class="btn btn-primary btn-lg mt-3">
+        Ir al catálogo
+    </a>
+</div>

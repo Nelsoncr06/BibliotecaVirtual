@@ -1,0 +1,94 @@
+﻿@model IEnumerable<BibliotecaMVC_BD.Models.Libro>
+
+@{
+    ViewData["Title"] = "Catálogo de libros";
+}
+
+<h1>Catálogo de libros</h1>
+
+<p>Consulta los libros registrados en la biblioteca.</p>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensajeExito"]
+    </div>
+}
+
+<p>
+    <a asp-action="Registrar" class="btn btn-primary">
+        Registrar libro
+    </a>
+</p>
+
+<p>
+    <strong>Total de libros registrados:</strong>
+    @ViewData["TotalLibros"]
+</p>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-sm-8 col-md-6">
+        <label for="filtro" class="form-label">
+            Buscar por código, título o autor
+        </label>
+        <input type="text"
+               id="filtro"
+               name="filtro"
+               value="@ViewData["Filtro"]"
+               class="form-control"
+               maxlength="100"
+               placeholder="Escribe un término de búsqueda" />
+    </div>
+
+    <div class="col-sm-auto align-self-end">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Limpiar</a>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No se encontraron libros para mostrar.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Fecha de publicación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var libro in Model)
+                {
+                    <tr>
+                        <td>@libro.Codigo</td>
+                        <td>@libro.Titulo</td>
+                        <td>@libro.Autor</td>
+                        <td>@libro.FechaPublicacion?.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <a asp-action="Detalle"
+                               asp-route-id="@libro.IdLibro"
+                               class="btn btn-sm btn-outline-primary">
+                                Ver detalle
+                            </a>
+
+                            <a asp-action="Eliminar"
+                               asp-route-id="@libro.IdLibro"
+                               class="btn btn-sm btn-outline-danger">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
