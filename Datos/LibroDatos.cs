@@ -6,18 +6,19 @@ using Microsoft.Extensions.Configuration;
 
 namespace BibliotecaMVC_BD.Datos
 {
+    // Clase para manejar las operaciones de datos relacionadas con los libros en la base de datos.
     public class LibroDatos
     {
         private readonly string _cadenaConexion;
 
-        public LibroDatos(IConfiguration configuracion)
+        public LibroDatos(IConfiguration configuracion) // Constructor que recibe la configuración para inicializar la conexión a la base de datos.
         {
             _cadenaConexion = configuracion.GetConnectionString("BibliotecaDB")
                 ?? throw new InvalidOperationException(
                     "No se encontró la cadena de conexión BibliotecaDB.");
         }
 
-        public List<Libro> ObtenerTodos(string? filtro = null)
+        public List<Libro> ObtenerTodos(string? filtro = null) // Método para obtener todos los libros de la base de datos, con un filtro opcional.
         {
             var libros = new List<Libro>();
 
@@ -33,12 +34,12 @@ namespace BibliotecaMVC_BD.Datos
             using (var conexion = new SqlConnection(_cadenaConexion))
             using (var comando = new SqlCommand(consulta, conexion))
             {
-                comando.Parameters.Add("@Filtro", System.Data.SqlDbType.NVarChar, 100)
+                comando.Parameters.Add("@Filtro", System.Data.SqlDbType.NVarChar, 100) // Parámetro para el filtro de búsqueda.
                     .Value = (filtro ?? string.Empty).Trim();
 
-                conexion.Open();
+                conexion.Open(); // Abre la conexión a la base de datos.
 
-                using (var lector = comando.ExecuteReader())
+                using (var lector = comando.ExecuteReader()) // Ejecuta la consulta y obtiene un lector de datos para recorrer los resultados.
                 {
                     while (lector.Read())
                     {
@@ -59,8 +60,8 @@ namespace BibliotecaMVC_BD.Datos
             return libros;
         }
 
-
-        public void Registrar(Libro libro)
+        // Método para registrar un nuevo libro en la base de datos. Recibe un objeto Libro con los datos a insertar.
+        public void Registrar(Libro libro) 
         {
             const string consulta = @"
         INSERT INTO dbo.Libros (Codigo, Titulo, Autor, FechaPublicacion)
@@ -85,6 +86,7 @@ namespace BibliotecaMVC_BD.Datos
                 comando.ExecuteNonQuery();
             }
         }
+        // Método para contar el total de libros en la base de datos. Devuelve un entero con el número de registros.
         public int ContarLibros()
         {
             const string consulta = "SELECT COUNT(*) FROM dbo.Libros;";
@@ -97,6 +99,7 @@ namespace BibliotecaMVC_BD.Datos
             }
         }
 
+        // Método para obtener un libro por su ID. Devuelve un objeto Libro o null si no se encuentra.
         public Libro? ObtenerPorId(int id)
         {
             const string consulta = @"

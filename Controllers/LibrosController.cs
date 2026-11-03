@@ -5,17 +5,18 @@ using Microsoft.Data.SqlClient;
 
 namespace BibliotecaMVC_BD.Controllers
 {
-    public class LibrosController : Controller
+    // Controlador para manejar las operaciones relacionadas con los libros.
+    public class LibrosController : Controller // Hereda de Controller para manejar las solicitudes HTTP y devolver vistas.
     {
         private readonly LibroDatos _libroDatos;
 
-        public LibrosController(IConfiguration configuracion)
+        public LibrosController(IConfiguration configuracion) // Constructor que recibe la configuración para inicializar la conexión a la base de datos.
         {
             _libroDatos = new LibroDatos(configuracion);
         }
 
-        [HttpGet]
-        public IActionResult Index(string? filtro)
+        [HttpGet] // Acción para mostrar la lista de libros, con un filtro opcional.
+        public IActionResult Index(string? filtro) // Recibe un parámetro de filtro opcional para buscar libros por código, título o autor.
         {
             ViewData["Filtro"] = filtro;
             ViewData["TotalLibros"] = _libroDatos.ContarLibros();
@@ -24,15 +25,15 @@ namespace BibliotecaMVC_BD.Controllers
             return View(libros);
         }
 
-        [HttpGet]
+        [HttpGet] // Acción para mostrar el formulario de registro de un nuevo libro.
         public IActionResult Registrar()
         {
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Registrar(Libro libro)
+        [HttpPost] // Acción para manejar el envío del formulario de registro de un nuevo libro. Valida los datos y registra el libro en la base de datos.
+        [ValidateAntiForgeryToken] // Protege contra ataques CSRF (Cross-Site Request Forgery).
+        public IActionResult Registrar(Libro libro) // Recibe un objeto Libro con los datos del formulario.
         {
             if (libro.FechaPublicacion.HasValue &&
                 libro.FechaPublicacion.Value.Date > DateTime.Today)
@@ -64,8 +65,8 @@ namespace BibliotecaMVC_BD.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult Detalle(int id)
+        [HttpGet] // Acción para mostrar el formulario de edición de un libro existente.
+        public IActionResult Detalle(int id) // Recibe el ID del libro a editar y obtiene sus datos de la base de datos.
         {
             var libro = _libroDatos.ObtenerPorId(id);
 
@@ -77,8 +78,8 @@ namespace BibliotecaMVC_BD.Controllers
             return View(libro);
         }
 
-        [HttpGet]
-        public IActionResult Eliminar(int id)
+        [HttpGet] // Acción para mostrar el formulario de edición de un libro existente.
+        public IActionResult Eliminar(int id) // Recibe el ID del libro a eliminar y obtiene sus datos de la base de datos.
         {
             var libro = _libroDatos.ObtenerPorId(id);
 
@@ -90,8 +91,8 @@ namespace BibliotecaMVC_BD.Controllers
             return View(libro);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost] // Acción para manejar la confirmación de eliminación de un libro. Valida el ID y elimina el libro de la base de datos.
+        [ValidateAntiForgeryToken] 
         public IActionResult ConfirmarEliminacion(int id)
         {
             bool eliminado = _libroDatos.Eliminar(id);
